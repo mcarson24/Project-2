@@ -10,7 +10,7 @@ import { Ionicons } from 'react-native-vector-icons'
 
 export default function App() {
   return (
-    <AppContainer />
+    <AppContainer screenProps={{ fullPlot: false}}/>
   );
 }
 
