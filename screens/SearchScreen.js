@@ -9,8 +9,6 @@ export default class SearchScreen extends React.Component {
 	state = {
 		movie: '',
 		search: '',
-		timer: '',
-		debouncedVersion: ''
 	}
 
 	componentDidMount() {
