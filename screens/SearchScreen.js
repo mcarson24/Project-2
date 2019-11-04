@@ -36,18 +36,23 @@ export default class SearchScreen extends React.Component {
 		})
 	}
 
-	getMoviesTest = () => {
-		const movies = getTestMovies()
+	getMovies = async () => {
+		const movies = await getMovies(this.state.search)
+
 		this.setState({
-			movies: movies.Search
+			movies: movies
 		})
+	}
+
+	fetchMovies = async title => {
+		
 	}
 
 	changeText = text => {
 		this.setState(prevState => ({
 			search: text
 		}))
-		this.getMoviesTest()
+		this.getMovies()
 	}
 
 	render() {

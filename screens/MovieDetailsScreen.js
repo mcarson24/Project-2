@@ -14,7 +14,6 @@ export default class MovieDetailsScreen extends React.Component {
 		this.setState({
 			movie: this.props.navigation.getParam('movie'),
 		}, () => this.getMovieInfo())
-		console.log(this.props.screenProps)
 	}
 
 	getMovieInfo = async () => {
