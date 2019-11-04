@@ -20,7 +20,13 @@ export default class MovieDetailsScreen extends React.Component {
 		const plotLength = this.props.screenProps.fullPlot ? 'full' : 'short'
 
 		const movie = await getSingleMovie(this.state.movie.imdbID, plotLength)
-		this.setState({movie})
+		this.setState(() => {
+			return {
+				movie: movie,
+				fresh: movie.Ratings.length > 1 && parseInt(movie.Ratings[1].Value) >= 75
+			}
+		}, () => console.log(this.state))
+			
 	}
 
 	state = {
@@ -31,11 +37,17 @@ export default class MovieDetailsScreen extends React.Component {
 		return (
 			<ScrollView style={styles.container} contentContainer={{alignItems: 'center', justifyContent: 'flex-start'}}>
 				<Image style={styles.poster}
-			           source={{ uri: this.state.movie.Poster}}
+			           source={ this.state.movie.Poster === 'N/A' ? require('../assets/no_poster.png') : { uri: this.state.movie.Poster}}
 			           />
 	           	<View style={styles.infoContainer}>
 					<ScrollView>
-						<Text style={styles.title}>{this.state.movie.Title}</Text>
+						<View style={styles.header}>
+							{ this.state.fresh && (
+								<Image source={require('../assets/rt_fresh.png')} 
+									   style={{width: 50, height: 50, marginRight: 15}}/>
+							)}	
+							<Text style={[styles.title, this.state.fresh ? styles.freshTitle : '']}>{this.state.movie.Title}</Text>
+						</View>
 						<Text style={styles.plot}>{this.state.movie.Plot}</Text>
 					</ScrollView>
 					<View style={styles.ratingsContainer}>
@@ -56,16 +68,30 @@ const styles = StyleSheet.create({
 	infoContainer: {
 		paddingHorizontal: 25
 	},
+	header: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		marginBottom: 15,
+		width: '95%'
+	},
 	title: {
+		flexDirection: 'row',
 		fontSize: 24,
 		fontWeight: 'bold',
-		textAlign: 'center'
+		textAlign: 'left',
+		marginRight: 20
+	},
+	freshTitle: {
+		textAlign: 'left'
 	},
 	plot: {
+		marginBottom: 15
 	},
 	poster: {
 		height: 500,
-		width: '100%'
+		marginBottom: 15,
+		width: '100%',
 	},
 	ratingsContainer: {
 		flex: 1,

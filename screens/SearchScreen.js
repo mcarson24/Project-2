@@ -11,15 +11,8 @@ export default class SearchScreen extends React.Component {
 		search: '',
 		movies: [],
 		currentPage: 1,
-		pages: 0
-	}
-
-	componentDidMount() {
-		
-	}
-
-	componentDidUpdate() {
-		// console.log(this.state.movies)
+		pages: 0,
+		remainingItems: 0
 	}
 
 	getMovieDetails = async () => {
@@ -38,19 +31,24 @@ export default class SearchScreen extends React.Component {
 		})
 	}
 
-	getMovieOnPage = async page => {
-		return await await getMoviesFromAPI(this.state.search, page)
+	getMoviesOnPage = async page => {
+		return await await getMoviesFromAPI(this.state.search.trim(), page)
 	}
 
 	fetchMovies = async () => {
 		let page = 1
-		while (page <= (movies = await this.getMovieOnPage(page)).totalResults) {
+		let remainingItems = this.props.screenProps.results
+		let movies = await this.getMoviesOnPage(page)
+		while (remainingItems > 0) {
 			if (movies.Error) return
+				
 			this.setState(prevState => ({
-				movies: [...prevState.movies, ...movies.Search]
+				movies: [...prevState.movies, ...movies.Search.slice(0, remainingItems)]
 			}))
+
+			remainingItems -= 10
 			page++
-			movies = await this.getMovieOnPage(page)
+			movies = await this.getMoviesOnPage(page)
 		}
 	}
 
@@ -75,6 +73,9 @@ export default class SearchScreen extends React.Component {
 							  style={{marginTop: 25}}
 							  />
 		      	</View>
+		      	{ this.state.movies.length === 0 && (
+		      		<Text>No Movies</Text>
+	      		)}
 			</View>
 		)
 	}

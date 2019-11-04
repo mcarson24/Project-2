@@ -10,7 +10,7 @@ import SettingsScreen from './screens/SettingsScreen'
 
 export default function App() {
   return (
-    <AppContainer screenProps={{ fullPlot: false}}/>
+    <AppContainer screenProps={defaultScreenProps} />
   );
 }
 
@@ -34,12 +34,18 @@ const TabNavigator = createBottomTabNavigator({
   Search: MoviesTab,
   Settings: SettingsScreen
 }, {
+  initialRouteName: 'Settings',
   tabBarOptions: {
-    activeTintColor: 'green'
+    activeTintColor: 'green',
   }
 })
 
 const AppContainer = createAppContainer(TabNavigator)
+
+const defaultScreenProps = {
+  fullPlot: false,
+  results: 25
+}
 
 const styles = StyleSheet.create({
   container: {

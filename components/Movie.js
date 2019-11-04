@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 
 const truncateMovieTitle = title => {
-	// if (title.length > 25) return `${title.substring(0, 25)}...`
+	if (title.length > 25) return `${title.substring(0, 25)}...`
 
 	return title
 }
@@ -12,7 +12,7 @@ export default props => (
 		<TouchableOpacity style={styles.container}
 						  onPress={() => props.handlePress(props.data)}>
 			<Image style={styles.poster}
-		           source={{ uri: props.data.Poster }}
+		           source={ props.data.Poster == 'N/A' ? require('../assets/no_poster.png') : {uri: props.data.Poster }}
 		           />
 		    <View style={styles.movieTitle}>
 				<Text style={styles.movieTitleText}>{truncateMovieTitle(props.data.Title)}</Text>
@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
 		marginRight: 15
 	},
 	movieTitle: {
-		flexDirection: 'row'
+		flexDirection: 'row',
+		justifyContent: 'space-around'
 	},
 	movieTitleText: {
 		fontWeight: 'bold',
