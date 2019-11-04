@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 
 const truncateMovieTitle = title => {
-	if (title.length > 25) return `${title.substring(0, 25)}...`
+	// if (title.length > 25) return `${title.substring(0, 25)}...`
 
 	return title
 }

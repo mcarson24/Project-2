@@ -6,11 +6,11 @@ export const testMovieDetails = async (plotLength = 'short') => {
 	return results
 }
 
-export const getMovies = async title => {
+export const getMoviesFromAPI = async (title, page = 1) => {
 	title = title.replace(/\s/g, '+')
-	const response = await fetch(`https://www.omdbapi.com/?apikey=d81f2995&s=${title}&r=json`)
+	const response = await fetch(`https://www.omdbapi.com/?apikey=d81f2995&s=${title}&page=${page}&type=movie&r=json`)
 	const results = await response.json()
-	return results['Search']
+	return results
 }
 
 export const getSingleMovie = async(imdbID, plotLength = 'short') => {

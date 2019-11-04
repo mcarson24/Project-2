@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native'
-import { testMovieDetails, getMovies, getTestMovies } from '../api'
+import { totalSearchResults, getMoviesFromAPI, getTestMovies } from '../api'
 import _ from 'lodash'
 import { search } from '../mockData'
 import Movie from '../components/Movie'
@@ -9,7 +9,9 @@ export default class SearchScreen extends React.Component {
 	state = {
 		movie: '',
 		search: '',
-		movies: []
+		movies: [],
+		currentPage: 1,
+		pages: 0
 	}
 
 	componentDidMount() {
@@ -36,23 +38,28 @@ export default class SearchScreen extends React.Component {
 		})
 	}
 
-	getMovies = async () => {
-		const movies = await getMovies(this.state.search)
-
-		this.setState({
-			movies: movies
-		})
+	getMovieOnPage = async page => {
+		return await await getMoviesFromAPI(this.state.search, page)
 	}
 
-	fetchMovies = async title => {
-		
+	fetchMovies = async () => {
+		let page = 1
+		while (page <= (movies = await this.getMovieOnPage(page)).totalResults) {
+			if (movies.Error) return
+			this.setState(prevState => ({
+				movies: [...prevState.movies, ...movies.Search]
+			}))
+			page++
+			movies = await this.getMovieOnPage(page)
+		}
 	}
 
 	changeText = text => {
 		this.setState(prevState => ({
-			search: text
+			search: text,
+			movies: []
 		}))
-		this.getMovies()
+		this.fetchMovies()
 	}
 
 	render() {
