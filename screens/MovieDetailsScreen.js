@@ -13,7 +13,7 @@ export default class MovieDetailsScreen extends React.Component {
 	componentDidMount() {
 		this.setState({
 			movie: this.props.navigation.getParam('movie'),
-		})
+		}, () => console.log(this.state.movie))
 	}
 
 	state = {
@@ -32,9 +32,9 @@ export default class MovieDetailsScreen extends React.Component {
 						<Text style={styles.title}>{this.state.movie.Title}</Text>
 					</ScrollView>
 					<View style={styles.ratingsContainer}>
-		           		{this.props.navigation.getParam('movie').Ratings.map((rating, index) => (
+		           		{ this.props.navigation.getParam('movie').Ratings && (this.props.navigation.getParam('movie').Ratings.map((rating, index) => (
 		           			<Rating rating={rating} key={index} />
-	           			))}
+	           			)))}
            			</View>
 	           	</View>
 			</ScrollView>

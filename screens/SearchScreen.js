@@ -1,22 +1,38 @@
 import React from 'react'
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
-import { testMovieDetails, getMovies } from '../api'
+import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native'
+import { testMovieDetails, getMovies, getTestMovies } from '../api'
 import _ from 'lodash'
-
-let debouncedVersion = ''
+import { search } from '../mockData'
+import Movie from '../components/Movie'
 
 export default class SearchScreen extends React.Component {
 	state = {
 		movie: '',
 		search: '',
+		movies: [
+			{
+		        "Poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BMTk2NzczOTgxNF5BMl5BanBnXkFtZTcwODQ5ODczOQ@@._V1_SX300.jpg",
+		        "Title": "Star Trek: Into Darkness",
+		        "Type": "movie",
+		        "Year": "2013",
+		        "imdbID": "tt1408101",
+		      },
+		      {
+		        "Poster": "https://ia.media-imdb.com/images/M/MV5BMjEwMzMxODIzOV5BMl5BanBnXkFtZTgwNzg3OTAzMDI@._V1_SX300.jpg",
+		        "Title": "Rogue One: A Star Wars Story",
+		        "Type": "movie",
+		        "Year": "2016",
+		        "imdbID": "tt3748528",
+		      },
+		]
 	}
 
 	componentDidMount() {
-		// this.getMovieDetails()
+		
 	}
 
 	componentDidUpdate() {
-		console.log(this.state.movie)
+		// console.log(this.state.movies)
 	}
 
 	getMovieDetails = async () => {
@@ -29,25 +45,39 @@ export default class SearchScreen extends React.Component {
 		}
 	}
 
+	pressMovie = movie => {
+		this.props.navigation.navigate('Details', {
+			movie: movie
+		})
+	}
+
+	getMoviesTest = () => {
+		const movies = getTestMovies()
+		this.setState({
+			movies: movies.Search
+		}, () => console.log(this.state.movies))
+	}
+
 	changeText = text => {
 		this.setState(prevState => ({
 			search: text
 		}))
-		console.log(this.state.search)
+		this.getMoviesTest()
 	}
 
 	render() {
 		return (
 			<View style={styles.container}>
-				<Text>TODO: Search Screen</Text>
 				<TextInput style={{ width: '75%', backgroundColor: 'orange', paddingHorizontal: 25, paddingVertical: 15}} 
 						   onChangeText={_.debounce(this.changeText, 500)}
 						   />
-				<Button title="Movie Details"
-						onPress={() => this.props.navigation.navigate('Details', {
-							movie: this.state.movie
-						})}
-						/>
+				<View style={styles.searchContainer}>
+					<FlatList data={this.state.movies}
+							  renderItem={({item}) => <Movie data={item} handlePress={() => this.pressMovie(item)} />}
+							  keyExtractor={item => item.imdbID}
+							  style={{marginTop: 25}}
+							  />
+		      	</View>
 			</View>
 		)
 	}
@@ -56,7 +86,12 @@ export default class SearchScreen extends React.Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+		paddingVertical: 15
+	},
+	searchContainer: {
+		paddingLeft: 25,
+		width: '100%'
 	}
 })

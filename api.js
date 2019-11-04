@@ -1,3 +1,5 @@
+import { search } from './mockData'
+
 export const testMovieDetails = async (plotLength = 'short') => {
 	const response = await fetch(`https://www.omdbapi.com/?apikey=d81f2995&i=tt0121765&plot=${plotLength}&r=json`)
 	const results = await response.json()
@@ -10,4 +12,8 @@ export const getMovies = async (title, plotLength = 'short') => {
 	return results	
 }
 
+
+export const getTestMovies = (title, plotLength = 'short') => {
+	return search
+}
 
