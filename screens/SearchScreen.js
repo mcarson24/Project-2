@@ -9,22 +9,7 @@ export default class SearchScreen extends React.Component {
 	state = {
 		movie: '',
 		search: '',
-		movies: [
-			{
-		        "Poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BMTk2NzczOTgxNF5BMl5BanBnXkFtZTcwODQ5ODczOQ@@._V1_SX300.jpg",
-		        "Title": "Star Trek: Into Darkness",
-		        "Type": "movie",
-		        "Year": "2013",
-		        "imdbID": "tt1408101",
-		      },
-		      {
-		        "Poster": "https://ia.media-imdb.com/images/M/MV5BMjEwMzMxODIzOV5BMl5BanBnXkFtZTgwNzg3OTAzMDI@._V1_SX300.jpg",
-		        "Title": "Rogue One: A Star Wars Story",
-		        "Type": "movie",
-		        "Year": "2016",
-		        "imdbID": "tt3748528",
-		      },
-		]
+		movies: []
 	}
 
 	componentDidMount() {
@@ -55,7 +40,7 @@ export default class SearchScreen extends React.Component {
 		const movies = getTestMovies()
 		this.setState({
 			movies: movies.Search
-		}, () => console.log(this.state.movies))
+		})
 	}
 
 	changeText = text => {

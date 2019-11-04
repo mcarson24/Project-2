@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { testMovieDetails } from '../api'
+import { testMovieDetails, getSingleMovie } from '../api'
 import Rating from '../components/Rating'
 
 export default class MovieDetailsScreen extends React.Component {
@@ -13,7 +13,15 @@ export default class MovieDetailsScreen extends React.Component {
 	componentDidMount() {
 		this.setState({
 			movie: this.props.navigation.getParam('movie'),
-		}, () => console.log(this.state.movie))
+		}, () => this.getMovieInfo())
+		console.log(this.props.screenProps)
+	}
+
+	getMovieInfo = async () => {
+		const plotLength = this.props.screenProps.fullPlot ? 'full' : 'short'
+
+		const movie = await getSingleMovie(this.state.movie.imdbID, plotLength)
+		this.setState({movie})
 	}
 
 	state = {
@@ -28,11 +36,11 @@ export default class MovieDetailsScreen extends React.Component {
 			           />
 	           	<View style={styles.infoContainer}>
 					<ScrollView>
-						<Text style={styles.plot}>{this.state.movie.Plot}</Text>
 						<Text style={styles.title}>{this.state.movie.Title}</Text>
+						<Text style={styles.plot}>{this.state.movie.Plot}</Text>
 					</ScrollView>
 					<View style={styles.ratingsContainer}>
-		           		{ this.props.navigation.getParam('movie').Ratings && (this.props.navigation.getParam('movie').Ratings.map((rating, index) => (
+		           		{ this.state.movie.Ratings && (this.state.movie.Ratings.map((rating, index) => (
 		           			<Rating rating={rating} key={index} />
 	           			)))}
            			</View>
