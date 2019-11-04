@@ -1,12 +1,12 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { Ionicons } from 'react-native-vector-icons'
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import SettingsScreen from './screens/SettingsScreen'
 import MovieDetailsScreen from './screens/MovieDetailsScreen'
 import SearchScreen from './screens/SearchScreen'
-import { Ionicons } from 'react-native-vector-icons'
+import SettingsScreen from './screens/SettingsScreen'
 
 export default function App() {
   return (
