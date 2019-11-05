@@ -34,7 +34,7 @@ const TabNavigator = createBottomTabNavigator({
   Search: MoviesTab,
   Settings: SettingsScreen
 }, {
-  initialRouteName: 'Settings',
+  initialRouteName: 'Search',
   tabBarOptions: {
     activeTintColor: 'green',
   }
