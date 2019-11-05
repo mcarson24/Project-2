@@ -11,9 +11,15 @@ export default class SearchScreen extends React.Component {
 		search: '',
 		movies: [],
 		currentPage: 1,
-		pages: 0,
+		page: 1,
 		remainingItems: 0,
 		movieIds: []
+	}
+
+	componentDidMount() {
+		this.setState({
+			remainingItems: this.props.screenProps.results
+		})
 	}
 
 	getMovieDetails = async () => {
@@ -37,10 +43,12 @@ export default class SearchScreen extends React.Component {
 	}
 
 	fetchMovies = async () => {
-		let page = 1
-		let remainingItems = this.props.screenProps.results
-		let movies = await this.getMoviesOnPage(page)
-		while (remainingItems > 0) {
+		this.setState({
+			remainingItems: this.props.screenProps.results,
+			page: 1
+		})
+		let movies = await this.getMoviesOnPage(this.state.page)
+		while (this.state.remainingItems > 0) {
 			let moviesToAdd = []
 			
 			if (movies.Error) return
@@ -53,12 +61,12 @@ export default class SearchScreen extends React.Component {
 				}
 			})
 			this.setState(prevState => ({
-				movies: [...prevState.movies, ...moviesToAdd.slice(0, remainingItems)]
+				movies: [...prevState.movies, ...moviesToAdd.slice(0, this.state.remainingItems)],
+				remainingItems: prevState.remainingItems - 10,
+				page: ++prevState.page
 			}))
 
-			remainingItems -= 10
-			page++
-			movies = await this.getMoviesOnPage(page)
+			movies = await this.getMoviesOnPage(this.state.page)
 		}
 	}
 
