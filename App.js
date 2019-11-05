@@ -19,6 +19,11 @@ const MoviesTab = createStackNavigator({
   Details: MovieDetailsScreen
 }, {
   initialRouteName: 'Search',
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: '#1a202c'
+    }
+  }
 })
 
 MoviesTab.navigationOptions = {
@@ -27,7 +32,8 @@ MoviesTab.navigationOptions = {
               size={25}
               color={tintColor}
               />
-  )
+  ),
+
 }
 
 const TabNavigator = createBottomTabNavigator({
@@ -36,15 +42,17 @@ const TabNavigator = createBottomTabNavigator({
 }, {
   initialRouteName: 'Search',
   tabBarOptions: {
-    activeTintColor: 'green',
-  }
+    activeTintColor: '#b794f4',
+    inactiveTintColor: '#553c9a',
+    style: {backgroundColor: '#1a202c'}
+  },
 })
 
 const AppContainer = createAppContainer(TabNavigator)
 
 const defaultScreenProps = {
   fullPlot: false,
-  results: 25
+  results: 25,
 }
 
 const styles = StyleSheet.create({

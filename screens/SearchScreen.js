@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Button, FlatList, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native'
 import { totalSearchResults, getMoviesFromAPI, getTestMovies } from '../api'
 import _ from 'lodash'
 import { search } from '../mockData'
@@ -45,43 +45,50 @@ export default class SearchScreen extends React.Component {
 	fetchMovies = async () => {
 		this.setState({
 			remainingItems: this.props.screenProps.results,
-			page: 1
-		})
-		let movies = await this.getMoviesOnPage(this.state.page)
-		while (this.state.remainingItems > 0) {
-			let moviesToAdd = []
-			
-			if (movies.Error) return
-			movies.Search.map(movie => {
-				if (this.state.movieIds.indexOf(movie.imdbID) < 0) {
-					moviesToAdd.push(movie)
-					this.setState(prevState => ({
-						moviesIds: prevState.movieIds.push(movie.imdbID),
-					}))
-				}
-			})
-			this.setState(prevState => ({
-				movies: [...prevState.movies, ...moviesToAdd.slice(0, this.state.remainingItems)],
-				remainingItems: prevState.remainingItems - 10,
-				page: ++prevState.page
-			}))
+			page: 1,
+		}, async () => {
+			console.log(this.state)
+			let movies = await this.getMoviesOnPage(this.state.page)
+			while (this.state.remainingItems > 0) {
+				let moviesToAdd = []
+				
+				if (movies.Error) return
+				movies.Search.map(movie => {
+					if (this.state.movieIds.indexOf(movie.imdbID) < 0) {
+						moviesToAdd.push(movie)
+						this.setState(prevState => ({
+							moviesIds: prevState.movieIds.push(movie.imdbID),
+						}))
+					}
+				})
+				this.setState(prevState => ({
+					movies: [...prevState.movies, ...moviesToAdd.slice(0, this.state.remainingItems)],
+					remainingItems: prevState.remainingItems - 10,
+					page: ++prevState.page
+				}))
 
-			movies = await this.getMoviesOnPage(this.state.page)
-		}
+				movies = await this.getMoviesOnPage(this.state.page)
+			}
+		})
 	}
 
 	changeText = text => {
 		this.setState(prevState => ({
 			search: text,
-			movies: []
-		}))
-		this.fetchMovies()
+			movies: [],
+			moviesIds: [],
+			movieIds: []
+		}), () => this.fetchMovies())
+		
 	}
 
 	render() {
 		return (
 			<View style={styles.container}>
-				<TextInput style={{ width: '75%', backgroundColor: 'orange', paddingHorizontal: 25, paddingVertical: 15}} 
+				<StatusBar barStyle="light-content" />
+				<TextInput style={styles.searchBar} 
+						   placeholder="Search for movies"
+						   placeholderTextColor="#e2e8f0"
 						   onChangeText={_.debounce(this.changeText, 500)}
 						   />
 				<View style={styles.searchContainer}>
@@ -92,7 +99,7 @@ export default class SearchScreen extends React.Component {
 							  />
 		      	</View>
 		      	{ this.state.movies.length === 0 && (
-		      		<Text>No Movies</Text>
+		      		<Text style={{color: '#f7fafc', fontSize: 32}}>No Movies</Text>
 	      		)}
 			</View>
 		)
@@ -104,7 +111,16 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'flex-start',
 		alignItems: 'center',
-		paddingVertical: 15
+		paddingVertical: 15,
+		backgroundColor: '#2d3748'
+	},
+	searchBar: {
+		width: '75%', 
+		backgroundColor: '#1a202c', 
+		paddingHorizontal: 25, 
+		paddingVertical: 15,
+		borderRadius: 10,
+		color: '#f7fafc',
 	},
 	searchContainer: {
 		paddingLeft: 25,

@@ -46,18 +46,21 @@ export default class SettingsScreen extends React.Component {
 		return (
 			<View style={styles.container}>
 				<View style={styles.option}>
-					<Text>Show Full Movie Plot</Text>
+					<Text style={styles.text}>Show Full Movie Plot</Text>
 					<Switch value={this.state.fullPlot}
 							onValueChange={() => this.handlePlotSetttingChange()}
+							trackColor={{false: '#1a202c', true: '#805ad5'}}
+							// thumbColor="#1a202c"
 							/>
 				</View>
 				<View style={styles.option}>
-					<Text>Amount of results to display</Text>
+					<Text style={styles.text}>Amount of results to display</Text>
 					<TextInput defaultValue={this.state.results.toString()}
 							   selectTextOnFocus={true}
 							   keyboardType="number-pad"
 						       style={styles.resultsSettingInput}
 							   onChangeText={this.handleResultsSettingChange}
+							   background="'#f7fafc'"
 							   />
 				</View>
 			</View>
@@ -70,20 +73,26 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: '100%'
+		width: '100%',
+		backgroundColor: '#2d3748'
 	}, 
 	option: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		width: '75%',
-		marginBottom: 10
+		marginBottom: 15,
+		borderRadius: 15
 	},
 	resultsSettingInput: {
 		width: 100,
 		textAlign: 'right',
 		padding: 10,
-		borderColor: 'red',
-		backgroundColor: '#cbd5e0'
+		borderRadius: 10,
+		backgroundColor: '#1a202c',
+		color: '#f7fafc',
+	},
+	text: {
+		color: '#f7fafc',
 	}
 })

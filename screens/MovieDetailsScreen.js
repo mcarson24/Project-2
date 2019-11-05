@@ -6,7 +6,8 @@ import Rating from '../components/Rating'
 export default class MovieDetailsScreen extends React.Component {
 	static navigationOptions = ({navigation}) => {
 		return {
-			headerTitle: navigation.getParam('movie').Title
+			headerTitle: navigation.getParam('movie').Title,
+			headerTintColor: '#f7fafc'
 		}
 	}
 
@@ -64,13 +65,15 @@ export default class MovieDetailsScreen extends React.Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: '#2d3748',
+		paddingBottom: 15
 	},
 	infoContainer: {
 		paddingHorizontal: 25
 	},
 	header: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
+		justifyContent: 'flex-start',
 		alignItems: 'center',
 		marginBottom: 15,
 		width: '95%'
@@ -80,13 +83,15 @@ const styles = StyleSheet.create({
 		fontSize: 24,
 		fontWeight: 'bold',
 		textAlign: 'left',
-		marginRight: 20
+		marginRight: 20,
+		color: '#f7fafc',
 	},
 	freshTitle: {
 		textAlign: 'left'
 	},
 	plot: {
-		marginBottom: 15
+		marginBottom: 15,
+		color: '#e2e8f0'
 	},
 	poster: {
 		height: 500,

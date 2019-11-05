@@ -1,10 +1,22 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
+const GREEN = '#48bb78'
+const YELLOW = '#ecc94b'
+const RED = '#f56565'
+
+const ratingColor = rating => {
+	let ratingParsed = parseFloat(rating)
+	if (rating.substring(rating.length, rating.length - 3) === '/10') ratingParsed *= 10
+	if (ratingParsed >= 75) return GREEN
+	if (ratingParsed >= 50) return YELLOW
+	return RED
+}
+
 export default props => (
 	<View style={styles.rating}>
-		<Text style={styles.number}>{props.rating.Value}</Text>
-		<Text style={styles.source}>{props.rating.Source}</Text>
+		<Text style={[styles.number, {color: ratingColor(props.rating.Value)}]}>{props.rating.Value}</Text>
+		<Text style={[styles.source, {color: ratingColor(props.rating.Value)}]}>{props.rating.Source}</Text>
 	</View>
 )
 
