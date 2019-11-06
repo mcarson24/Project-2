@@ -90,6 +90,8 @@ export default class SearchScreen extends React.Component {
 						   placeholder="Search for movies"
 						   placeholderTextColor="#e2e8f0"
 						   onChangeText={_.debounce(this.changeText, 500)}
+						   clearButtonMode="while-editing"
+						   selectTextOnFocus={true}
 						   />
 				<View style={styles.searchContainer}>
 					<FlatList data={this.state.movies}

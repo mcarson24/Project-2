@@ -50,7 +50,7 @@ export default class SettingsScreen extends React.Component {
 					<Switch value={this.state.fullPlot}
 							onValueChange={() => this.handlePlotSetttingChange()}
 							trackColor={{false: '#1a202c', true: '#805ad5'}}
-							// thumbColor="#1a202c"
+							thumbColor="#FFF"
 							/>
 				</View>
 				<View style={styles.option}>
